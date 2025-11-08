@@ -17,19 +17,62 @@
 ✅ **GR00T-N1.5模型微调**  
 ✅ **仿真和真实机器人部署**  
 
+## 重要说明：依赖关系
+
+⚠️ **本工程目前不能完全独立运行**，需要依赖父目录的 `gr00t` 模块。
+
+### 目录结构要求
+
+本工程必须位于 `Isaac-GR00T` 仓库的根目录下：
+
+```
+Isaac-GR00T/
+├── gr00t/                      # GR00T核心模块（必需）
+├── scripts/                    # 训练脚本（必需）
+└── unitree_gr00t_integration/  # 本工程
+    ├── README.md
+    ├── requirements.txt
+    └── ...
+```
+
+### 独立运行分析
+
+详细分析请参考：[STANDALONE_ANALYSIS.md](STANDALONE_ANALYSIS.md)
+
 ## 快速开始
 
 ### 1. 环境设置
 
+#### 方法1：使用自动安装脚本（推荐）
+
 ```bash
-# 安装Python依赖
+# 运行安装脚本（会自动安装所有依赖）
+bash install_dependencies.sh
+```
+
+#### 方法2：手动安装
+
+```bash
+# 1. 安装 gr00t 包（必需）
+cd ..  # 回到 Isaac-GR00T 根目录
+pip install -e .
+
+# 2. 安装本工程的Python依赖
+cd unitree_gr00t_integration
 pip install -r requirements.txt
 
-# 安装Isaac Sim环境（需要单独安装Isaac Sim 5.0）
+# 3. 安装Isaac Sim环境（需要单独安装Isaac Sim 5.0）
 # 参考: docs/simulation_setup.md
 ```
 
-### 2. 完整工作流程
+### 2. 验证安装
+
+```bash
+# 检查 gr00t 模块是否可以导入
+python3 -c "import gr00t; print('✓ gr00t 模块安装成功')"
+```
+
+### 3. 完整工作流程
 
 使用快速启动脚本运行完整流程：
 
@@ -42,7 +85,7 @@ python quick_start.py full \
     --max-steps 15000
 ```
 
-### 3. 分步执行
+### 4. 分步执行
 
 #### 步骤1: 数据采集
 
@@ -93,6 +136,7 @@ unitree_gr00t_integration/
 
 ## 文档
 
+- [独立运行分析](STANDALONE_ANALYSIS.md) - 了解依赖关系和独立运行方案
 - [仿真环境设置](docs/simulation_setup.md)
 - [数据采集指南](docs/data_collection.md)
 - [模型训练指南](docs/training.md)
