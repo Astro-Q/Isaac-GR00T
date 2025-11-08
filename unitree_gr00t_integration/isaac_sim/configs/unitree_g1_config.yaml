@@ -1,0 +1,46 @@
+# Unitree G1 Robot Configuration for Isaac Sim
+robot:
+  name: "unitree_g1"
+  urdf_path: "assets/unitree_g1/urdf/unitree_g1.urdf"
+  
+  # Joint configuration
+  joints:
+    left_arm: [0, 1, 2, 3, 4, 5, 6]  # 7 DOF
+    right_arm: [7, 8, 9, 10, 11, 12, 13]  # 7 DOF
+    left_hand: [14, 15, 16, 17, 18, 19, 20]  # 7 DOF (5 fingers)
+    right_hand: [21, 22, 23, 24, 25, 26, 27]  # 7 DOF (5 fingers)
+    left_leg: [28, 29, 30, 31, 32, 33]  # 6 DOF
+    right_leg: [34, 35, 36, 37, 38, 39]  # 6 DOF
+    waist: [40, 41, 42]  # 3 DOF
+  
+  # Action space
+  action_space:
+    type: "joint_position"  # or "joint_velocity", "end_effector"
+    dim: 43  # Total: 7+7+7+7+6+6+3 = 43
+    
+  # Observation space
+  observation_space:
+    state_dim: 43  # Joint positions
+    image_cameras: ["ego_view", "left_wrist", "right_wrist"]
+    image_resolution: [640, 480]
+    image_fps: 20
+
+# Simulation settings
+simulation:
+  dt: 0.01  # 100 Hz
+  physics_engine: "physx"
+  use_gpu: true
+  
+# Task configuration
+task:
+  name: "pick_and_place"
+  objects:
+    - name: "apple"
+      asset_path: "assets/objects/apple.usd"
+    - name: "basket"
+      asset_path: "assets/objects/basket.usd"
+  
+  # Workspace limits
+  workspace:
+    min: [-0.5, -0.5, 0.0]
+    max: [0.5, 0.5, 1.0]

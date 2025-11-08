@@ -1,0 +1,52 @@
+# Training configuration for Unitree G1 with GR00T-N1.5
+
+# Model configuration
+model:
+  name: "GR00T-N1.5-3B"
+  pretrained_path: "nvidia/GR00T-N1.5-3B"
+  embodiment_tag: "new_embodiment"
+  
+# Data configuration
+data:
+  config_name: "unitree_g1"
+  dataset_paths: []  # Will be filled by script
+  batch_size: 64
+  num_workers: 4
+  video_backend: "decord"  # or "torchcodec"
+  
+# Training hyperparameters
+training:
+  max_steps: 15000
+  learning_rate: 1e-4
+  weight_decay: 0.01
+  warmup_steps: 500
+  
+  # Which parts to fine-tune
+  tune_visual: true
+  tune_llm: false
+  tune_projector: true
+  tune_diffusion_model: true
+  
+  # LoRA settings (optional)
+  use_lora: false
+  lora_rank: 64
+  lora_alpha: 128
+  
+# Optimization
+optimization:
+  gradient_accumulation_steps: 1
+  gradient_checkpointing: true
+  mixed_precision: "bf16"  # or "fp16", "no"
+  
+# Logging and checkpointing
+logging:
+  use_wandb: true
+  wandb_project: "unitree-g1-gr00t"
+  log_interval: 100
+  save_interval: 1000
+  eval_interval: 1000
+  
+# Output
+output:
+  output_dir: "./checkpoints/unitree_g1"
+  save_total_limit: 3
